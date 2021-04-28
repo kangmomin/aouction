@@ -6,17 +6,24 @@ const fs = require('fs')
 
 const index = require('./')
 
-let room = JSON.parse(fs.readFileSync('F:/문서/node.js/경매/json/room.json').toString())
+app.set('views', __dirname + '/public')
+app.set('view engine','ejs')
 
-app.get('/', index)
+app.get('/', (req, res) => {
+    res.render('index.ejs')
+})
 
 io.on('connect', (socket) => {
+    let room = JSON.parse(fs.readFileSync('F:/문서/node.js/경매/json/room.json').toString())
+    
     socket.on('joinRoom', (name) => {
-        for(room of room) {
-            if(room == name) {
-                socket.join(room)
+        for(_room in room.main) {
+            console.log(room.main[_room])
+            if(room.main[_room] == name) {
+                return socket.join(_room)
             }
         }
+        fs.writeFileSync('F:/문서/node.js/경매/json/room.json', JSON.stringify(room))
     })
 
     socket.on('leaveRoom', (name) => {
