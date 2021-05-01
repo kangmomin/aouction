@@ -23,7 +23,7 @@ io.on('connect', (socket) => {
                 return socket.join(_room)
             }
         }
-        fs.writeFileSync('F:/문서/node.js/경매/json/room.json', JSON.stringify(room))
+        socket.emit('noneRoom')
     })
 
     socket.on('leaveRoom', (name) => {

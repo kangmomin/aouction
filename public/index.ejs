@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>room selector</title>
 </head>
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <input id="room_name" type="text">
     <input id="room" type="submit" value="room">
     <script>
         let socket = io()
 
         $('#room').click(() => {
-            socket.emit('joinRoom', document.getElementById('room').value)
+            let room = document.getElementById('room_name').value
+            socket.emit('joinRoom', room)
+        })
+
+        socket.on('noneRoom', () => {
+            alert('존재하지 않는 방 입니다.')
+            $("#room_name").value = ''
         })
     </script>
 </body>
